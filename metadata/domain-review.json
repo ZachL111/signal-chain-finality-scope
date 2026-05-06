@@ -1,0 +1,73 @@
+{
+  "repo": "signal-chain-finality-scope",
+  "language": "C",
+  "category": "Blockchain tooling",
+  "goal": "Implement a C blockchain tooling project for finality stream reduction, using windowed input fixtures and late-data behavior checks.",
+  "review_model": {
+    "terms": [
+      "event finality",
+      "nonce pressure",
+      "settlement risk",
+      "proof depth"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "event finality",
+      "signal": 66,
+      "slack": 42,
+      "drag": 16,
+      "confidence": 72,
+      "score": 198,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "nonce pressure",
+      "signal": 71,
+      "slack": 38,
+      "drag": 13,
+      "confidence": 76,
+      "score": 217,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "settlement risk",
+      "signal": 85,
+      "slack": 45,
+      "drag": 28,
+      "confidence": 65,
+      "score": 196,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "proof depth",
+      "signal": 53,
+      "slack": 45,
+      "drag": 8,
+      "confidence": 50,
+      "score": 177,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "event finality",
+      "signal": 88,
+      "slack": 52,
+      "drag": 29,
+      "confidence": 46,
+      "score": 187,
+      "lane": "ship"
+    }
+  ]
+}

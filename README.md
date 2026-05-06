@@ -1,68 +1,40 @@
 # signal-chain-finality-scope
 
-`signal-chain-finality-scope` is a focused C codebase around implement a C blockchain tooling project for finality stream reduction, using windowed input fixtures and late-data behavior checks. It is meant to be easy to inspect, run, and extend without a hosted service.
+`signal-chain-finality-scope` explores blockchain tooling with a small C codebase and local fixtures. The technical goal is to implement a C blockchain tooling project for finality stream reduction, using windowed input fixtures and late-data behavior checks.
 
-## Signal Chain Finality Scope Walkthrough
+## Purpose
 
-I would read the project from the outside in: command, fixture, model, then roadmap. That keeps the blockchain tooling idea grounded in files that can be checked locally.
+The project exists to keep a narrow engineering decision visible and testable. For this repo, that decision is how event finality and settlement risk should influence a review result.
 
-## How It Is Put Together
+## Signal Chain Finality Scope Review Notes
 
-The design is intentionally direct: parse or construct a signal, score it, classify it, and verify the expected branch. This makes the repository useful for studying blockchain tooling behavior without needing a service or database unless the language project itself is SQL. The C implementation keeps headers, source, and assertions separate so bounds and types are easy to review.
+For a quick review, compare `nonce pressure` with `proof depth` before reading the middle cases.
 
-## Reason For The Project
+## What Is Covered
 
-This project keeps the domain idea close to the tests. That makes it useful as a reference implementation, a small experiment, or a starting point for a more specialized tool.
+- `fixtures/domain_review.csv` adds cases for event finality and nonce pressure.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/signal-chain-finality-walkthrough.md` walks through the case spread.
+- The C code includes a review path for `nonce pressure` and `proof depth`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Capabilities
+## Implementation Notes
 
-- Uses fixture data to keep event replay changes visible in code review.
-- Includes extended examples for invariant checks, including `surge` and `degraded`.
-- Documents settlement rules tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
+The implementation keeps the scoring rule plain: reward signal and confidence, preserve slack, penalize drag, then classify the result into a review lane.
 
-## Data Notes
+The C code keeps the review rule close to the tests.
 
-`examples/extended_cases.csv` adds six named cases. I kept the names plain so failures are easy to read in a terminal: baseline, pressure, surge, degraded, recovery, and boundary.
-
-## Where Things Live
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-
-## Getting It Running
-
-Use a normal shell with C available on `PATH`. The verifier is written as a PowerShell script because the portfolio was assembled on Windows.
-
-## Command Examples
+## Command
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Audit Path
 
-## Check The Work
+The verifier is intentionally local. It should fail if the fixture score math, lane assignment, or language-specific test drifts.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Limits
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Tradeoffs
-
-This code is local-first. It makes no claim about deployed usage and avoids credentials, hosted state, and environment-specific setup.
-
-## Possible Extensions
-
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add one more blockchain tooling fixture that focuses on a malformed or borderline input.
+No external service is required. A deeper version would add more negative cases and a clearer boundary around invalid input.

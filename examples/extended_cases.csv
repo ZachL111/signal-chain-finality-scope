@@ -1,0 +1,7 @@
+name,demand,capacity,latency,risk,weight,score,decision,reason
+baseline,58,87,14,10,6,103,review,blockchain tooling baseline scenario exercises the review path for bounded failure handling
+pressure,84,72,24,18,11,64,review,blockchain tooling pressure scenario exercises the review path for bounded failure handling
+surge,103,92,22,14,11,156,review,blockchain tooling surge scenario exercises the review path for bounded failure handling
+degraded,65,58,37,26,8,-89,review,blockchain tooling degraded scenario exercises the review path for bounded failure handling
+recovery,83,101,16,13,12,152,review,blockchain tooling recovery scenario exercises the review path for bounded failure handling
+boundary,78,84,22,18,10,68,review,blockchain tooling boundary scenario exercises the review path for bounded failure handling

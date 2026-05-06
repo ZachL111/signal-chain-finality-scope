@@ -1,0 +1,32 @@
+{
+  "index": 592,
+  "phase": 2,
+  "batch": 66,
+  "name": "signal-chain-finality-scope",
+  "planned_name": "signal-chain-finality-scope",
+  "language": "C",
+  "category": "Blockchain tooling",
+  "goal": "Implement a C blockchain tooling project for finality stream reduction, using windowed input fixtures and late-data behavior checks.",
+  "repository_url": "https://github.com/ZachL111/signal-chain-finality-scope",
+  "verification_command": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1",
+  "model": {
+    "inputs": [
+      "demand",
+      "capacity",
+      "latency",
+      "risk",
+      "weight"
+    ],
+    "threshold": 184,
+    "risk_penalty": 7,
+    "latency_penalty": 3,
+    "weight_bonus": 2,
+    "decision_rule": "accept when score is greater than or equal to threshold, otherwise review"
+  },
+  "quality_gates": [
+    "readme constraint scan",
+    "fixture presence check",
+    "metadata JSON parse",
+    "language verifier"
+  ]
+}
